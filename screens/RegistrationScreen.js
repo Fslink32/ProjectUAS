@@ -1,63 +1,60 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
-import {
-  userDataStore,
-  userDataGet,
-  userDataFind
-} from '../storage/userData';
+import React, {useState} from 'react'
+import {View, Text, TextInput, Button} from 'react-native'
+import {userDataStore, userDataGet, userDataFind} from '../storage/userData'
 
-const RegisterScreen = ({ navigation }) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [IsNotValid, setNotValid] = useState('');
+const RegisterScreen = ({navigation}) => {
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [IsNotValid, setNotValid] = useState('')
 
-  const handleRegister = async() => {
-    const validation = await userDataFind('users',username);
-    console.log(validation.length);
-    if(!username||!password||!email){
-      setNotValid(true);
-    }else{
-    if (validation.length > 0) {
-      setNotValid(true);
-    }else{
-    await userDataStore('users',{
-      username: username,
-      email: email,
-      password: password
-    });
-    navigation.navigate('Login');
-    // Perform registration logic here
-    // You can save the username and password to a database or perform any other necessary operations
-    // After registration, navigate to the login screen
+  const handleRegister = async () => {
+    const validation = await userDataFind('users', username)
+    if (!username|| !password|| !email) {
+      setNotValid(true)
+    } else {
+      console.log(validation.length);
+      if(validation.length > 0){
+        setNotValid(true)
+      }else{
+        await userDataStore('users', {
+          username: username,
+          email: email,
+          password: password,
+        })
+        navigation.navigate('Login')
+
+      }
+      // Perform registration logic here
+      // You can save the username and password to a database or perform any other necessary operations
+      // After registration, navigate to the login screen
+    }
+    // setNotValid(false);
   }
-}
-  // setNotValid(false);
-  };
 
   return (
     <View>
       <Text>Registration Screen</Text>
-      <Text>{IsNotValid ? "Username Sudah Digunakan":''}</Text>
+      <Text>{IsNotValid ? 'Username Sudah Digunakan' : ''}</Text>
       <TextInput
-        placeholder="Username"
+        placeholder='Username'
         value={username}
-        onChangeText={(text) => setUsername(text)}
+        onChangeText={text => setUsername(text)}
       />
       <TextInput
-        placeholder="Email"
+        placeholder='Email'
         value={email}
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={text => setEmail(text)}
       />
       <TextInput
-        placeholder="Password"
+        placeholder='Password'
         secureTextEntry
         value={password}
-        onChangeText={(text) => setPassword(text)}
+        onChangeText={text => setPassword(text)}
       />
-      <Button title="Register" onPress={handleRegister} />
+      <Button title='Register' onPress={handleRegister} />
     </View>
-  );
-};
+  )
+}
 
-export default RegisterScreen;
+export default RegisterScreen

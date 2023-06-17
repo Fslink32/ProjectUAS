@@ -30,8 +30,9 @@ com.projectuas.app-mergeDebugResources-28 D:\react_native\ProjectUAS\android\app
 com.projectuas.app-merged_res-29 D:\react_native\ProjectUAS\android\app\build\intermediates\merged_res\debug
 com.projectuas.app-debug-30 D:\react_native\ProjectUAS\android\app\src\debug\res
 com.projectuas.app-main-31 D:\react_native\ProjectUAS\android\app\src\main\res
-com.projectuas.app-packaged_res-32 D:\react_native\ProjectUAS\node_modules\@react-native-community\masked-view\android\build\intermediates\packaged_res\debug
-com.projectuas.app-packaged_res-33 D:\react_native\ProjectUAS\node_modules\react-native-gesture-handler\android\build\intermediates\packaged_res\debug
-com.projectuas.app-packaged_res-34 D:\react_native\ProjectUAS\node_modules\react-native-reanimated\android\build\intermediates\packaged_res\debug
-com.projectuas.app-packaged_res-35 D:\react_native\ProjectUAS\node_modules\react-native-safe-area-context\android\build\intermediates\packaged_res\debug
-com.projectuas.app-packaged_res-36 D:\react_native\ProjectUAS\node_modules\react-native-screens\android\build\intermediates\packaged_res\debug
+com.projectuas.app-packaged_res-32 D:\react_native\ProjectUAS\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\packaged_res\debug
+com.projectuas.app-packaged_res-33 D:\react_native\ProjectUAS\node_modules\@react-native-community\masked-view\android\build\intermediates\packaged_res\debug
+com.projectuas.app-packaged_res-34 D:\react_native\ProjectUAS\node_modules\react-native-gesture-handler\android\build\intermediates\packaged_res\debug
+com.projectuas.app-packaged_res-35 D:\react_native\ProjectUAS\node_modules\react-native-reanimated\android\build\intermediates\packaged_res\debug
+com.projectuas.app-packaged_res-36 D:\react_native\ProjectUAS\node_modules\react-native-safe-area-context\android\build\intermediates\packaged_res\debug
+com.projectuas.app-packaged_res-37 D:\react_native\ProjectUAS\node_modules\react-native-screens\android\build\intermediates\packaged_res\debug
