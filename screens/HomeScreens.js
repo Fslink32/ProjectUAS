@@ -11,7 +11,6 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = ({ navigation, route }) => {
-  const { username } = route.params;
   const [data, setData] = useState([]);
 
   useEffect(() => {

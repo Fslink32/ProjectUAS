@@ -10,6 +10,7 @@ const RegisterScreen = ({navigation}) => {
 
   const handleRegister = async () => {
     const validation = await userDataFind('users', username)
+    console.log(validation)
     if (!username|| !password|| !email) {
       setNotValid(true)
     } else {

@@ -1,77 +1,132 @@
-import React, {
-  useEffect,
-  useState
-} from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
-import { userDataStore,userDataGet,userDataFind,loginData } from '../storage/userData';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useEffect, useState} from 'react';
+import {View, TextInput, Dimensions, StyleSheet} from 'react-native';
+import {
+  userDataStore,
+  userDataFind,
+  loginData,
+  userDataGet,
+} from '../storage/userData';
+import {Button, Text} from '@rneui/themed';
+import {Stack} from 'react-native-flex-layout'; // Import Stack from 'react-native-flex-layout'
 
-const LoginScreen = ({ navigation }) => {
+const ScreenWidth = Dimensions.get('window').width;
+const ScreenHeight = Dimensions.get('window').height;
+
+const LoginScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isNotValid, setValidation] = useState('');
+  const [isNotValid, setValidation] = useState(false); // Set initial value to false
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const validation1 = await loginData('isLogIn', true);
-        if (validation1[0]) {
-          setUsername(validation1.username)
+        if (validation1.isLogIn === true) {
+          setUsername(validation1.username);
           navigation.navigate('Home', {
-            username
+            username,
           });
         }
       } catch (error) {
+        console.log(error);
       }
     };
 
     fetchData();
   }, []);
-  // checkLogIn()
-  const handleLogin = async() => {
-    // await AsyncStorage.removeItem('users');
-    const validation1 = await userDataFind('users',username);
-    if(validation1[0]){
-      if(validation1[0].password==password){
-        navigation.navigate('Home', {username});
-        await userDataStore('isLogIn', {
-          username: username,
-          isLogIn: true,
-        });
-      }else{
-        setValidation(true);
-      }
-    }else{
+
+  const handleLogin = async () => {
+    const validation1 = await userDataFind('users', username);
+    console.log(username);
+    if (validation1[0] && validation1[0].password == password) {
+      console.log(validation1[0]);
+      navigation.navigate('User', {
+        username,
+      });
+      await userDataStore('isLogIn', {
+        username: username,
+        isLogIn: true,
+      });
+      setValidation(false);
+    } else {
       setValidation(true);
     }
-    // Perform login logic here
-    // You can validate the username and password, and perform authentication
-    // If login is successful, navigate to the home screen
   };
+
   const Register = () => {
-    // Perform login logic here
-    // You can validate the username and password, and perform authentication
-    // If login is successful, navigate to the home screen
     navigation.navigate('Register');
   };
 
+  const styles = StyleSheet.create({
+    button: {
+      borderRadius: 10,
+    },
+    input: {
+      borderColor: 'black',
+      borderStyle: 'solid',
+      borderWidth: 1,
+      width: '50%',
+      justifyContent: 'center',
+      borderRadius: 10,
+      textAlign:'center',
+      marginVertical:5
+    },
+    title:{
+      color:"#000"
+    }
+  });
+
   return (
-    <View>
-      <Text>Login Screen</Text>
-      <Text>{isNotValid ? "Username Salah" : ""}</Text>
+    <Stack
+      center
+      style={{
+        width: ScreenWidth,
+        justifyContent: 'center',
+        display: 'flex',
+        height: ScreenHeight,
+      }}>
+      <Text h2 style={styles.title}> Login Screen </Text>{' '}
       <TextInput
         placeholder="Username"
         value={username}
-        onChangeText={(text) => setUsername(text)}
-      />
+        onChangeText={text => setUsername(text)}
+        style={styles.input}
+      />{' '}
+      <Stack row mt={5}>
+        {' '}
+        {isNotValid && (
+          <Text
+            style={{
+              color: 'red',
+            }}>
+            Username Salah{' '}
+          </Text>
+        )}{' '}
+      </Stack>{' '}
       <TextInput
         placeholder="Password"
         secureTextEntry
         value={password}
-        onChangeText={(text) => setPassword(text)}
-      />
-      <Button title="Login" onPress={handleLogin} />
-      <Button title="Register" onPress={Register} />
-    </View>
+        onChangeText={text => setPassword(text)}
+        style={styles.input}
+      />{' '}
+      <Stack row w={'50%'} align="center" mt={15} spacing={4}>
+        <Button
+          radius={'xl'}
+          style={styles.button}
+          title="Login"
+          onPress={handleLogin}
+        />{' '}
+      </Stack>{' '}
+      <Stack row w={'50%'} align="center" mt={10} spacing={4}>
+        <Button
+          radius={'xl'}
+          style={styles.button}
+          title="SignUp"
+          onPress={Register}
+        />{' '}
+      </Stack>{' '}
+    </Stack>
   );
 };
 
