@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {View, TextInput, Dimensions, StyleSheet} from 'react-native';
+import {
+  ScrollView,
+} from 'react-native';
 import {
   userDataStore,
   userDataFind,
   loginData,
   userDataGet,
 } from '../storage/userData';
-import {Button, Text} from '@rneui/themed';
-import {Stack} from 'react-native-flex-layout'; // Import Stack from 'react-native-flex-layout'
-
-const ScreenWidth = Dimensions.get('window').width;
-const ScreenHeight = Dimensions.get('window').height;
+import {Button, Text, Icon, Image} from '@rneui/themed';
+import {Card, Input} from '@rneui/base';
+import {Stack, Box} from 'react-native-flex-layout';
+import {myStyles} from '../assets/style';
 
 const LoginScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -21,9 +22,9 @@ const LoginScreen = ({navigation}) => {
     const fetchData = async () => {
       try {
         const validation1 = await loginData('isLogIn', true);
-        if (validation1.isLogIn === true) {
-          setUsername(validation1.username);
-          navigation.navigate('Home', {
+        if (validation1[0].isLogIn === true) {
+          setUsername(validation1[0].username);
+          navigation.navigate('User', {
             username,
           });
         }
@@ -57,76 +58,62 @@ const LoginScreen = ({navigation}) => {
     navigation.navigate('Register');
   };
 
-  const styles = StyleSheet.create({
-    button: {
-      borderRadius: 10,
-    },
-    input: {
-      borderColor: 'black',
-      borderStyle: 'solid',
-      borderWidth: 1,
-      width: '50%',
-      justifyContent: 'center',
-      borderRadius: 10,
-      textAlign:'center',
-      marginVertical:5
-    },
-    title:{
-      color:"#000"
-    }
-  });
-
   return (
-    <Stack
-      center
-      style={{
-        width: ScreenWidth,
-        justifyContent: 'center',
-        display: 'flex',
-        height: ScreenHeight,
-      }}>
-      <Text h2 style={styles.title}> Login Screen </Text>{' '}
-      <TextInput
-        placeholder="Username"
-        value={username}
-        onChangeText={text => setUsername(text)}
-        style={styles.input}
-      />{' '}
-      <Stack row mt={5}>
-        {' '}
-        {isNotValid && (
-          <Text
-            style={{
-              color: 'red',
-            }}>
-            Username Salah{' '}
+    <ScrollView>
+      <Stack center style={myStyles.container}>
+        <Card containerStyle={myStyles.cardContainer}>
+          <Box style={myStyles.boxImage}>
+            <Image
+              source={require('../assets/icons/logo.png')}
+              style={myStyles.image}
+            />
+          </Box>
+          <Text h2 style={myStyles.title}>
+            Login
           </Text>
-        )}{' '}
-      </Stack>{' '}
-      <TextInput
-        placeholder="Password"
-        secureTextEntry
-        value={password}
-        onChangeText={text => setPassword(text)}
-        style={styles.input}
-      />{' '}
-      <Stack row w={'50%'} align="center" mt={15} spacing={4}>
-        <Button
-          radius={'xl'}
-          style={styles.button}
-          title="Login"
-          onPress={handleLogin}
-        />{' '}
-      </Stack>{' '}
-      <Stack row w={'50%'} align="center" mt={10} spacing={4}>
-        <Button
-          radius={'xl'}
-          style={styles.button}
-          title="SignUp"
-          onPress={Register}
-        />{' '}
-      </Stack>{' '}
-    </Stack>
+          <Input
+            leftIcon={<Icon name="person" type="material" color="#517fa4" />}
+            placeholder="Username"
+            value={username}
+            onChangeText={text => setUsername(text)}
+            style={myStyles.input}
+          />
+          <Stack row mt={5}>
+            {isNotValid && (
+              <Text style={myStyles.invalidText}>Username Salah</Text>
+            )}
+          </Stack>
+          <Input
+            leftIcon={
+              <Icon name="visibility" type="material" color="#517fa4" />
+            }
+            placeholder="Password"
+            secureTextEntry
+            value={password}
+            onChangeText={text => setPassword(text)}
+            style={myStyles.input}
+          />
+          <Stack row align="center" mt={15} spacing={4}>
+            <Button
+              radius={'xl'}
+              style={myStyles.button}
+              title="Login"
+              onPress={handleLogin}
+            />
+          </Stack>
+          <Stack mt={15} spacing={4}>
+            <Text style={{textAlign: 'center'}}>
+              don't have an account?{'  '}
+              <Text
+                style={{textDecorationLine: 'underline', color: 'blue'}}
+                onPress={Register}>
+                SignUp
+              </Text>
+            </Text>
+          </Stack>
+        </Card>
+      </Stack>
+    </ScrollView>
   );
 };
 

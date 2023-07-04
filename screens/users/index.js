@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   View,
   ScrollView,
@@ -8,18 +8,35 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import {Icon} from '@rneui/themed';
+
 // Import your screen components
 import HomeScreen from '../HomeScreens';
-import AboutScreen from '../AboutScreen';
-import ContactScreen from '../ContactScreen';
-import CameraScreen from './CameraScreen';
+import ExploreScreen from '../ExploreScreen';
+import ContactScreen from '../ProfileScreens';
 
 const Tab = createBottomTabNavigator();
-
 const UserScreen = ({route}) => {
   console.log(route.params);
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {position: 'absolute', height: 70},
+        tabBarLabelStyle: {fontSize: 15, marginBottom: 5},
+      }}
+      initialRouteName="Home">
+      <Tab.Screen
+        name="Explore"
+        component={ExploreScreen}
+        options={{
+          tabBarLabel: 'Explore',
+          initialParams: {userId: '123'},
+          headerShown: false,
+          tabBarIcon: ({color, size}) => (
+            <Icon name="search" type="material" color={color} size={35} />
+          ),
+        }}
+      />
       <Tab.Screen
         name="Home"
         component={HomeScreen}
@@ -28,55 +45,19 @@ const UserScreen = ({route}) => {
           initialParams: {username: route.params},
           headerShown: false,
           tabBarIcon: ({color, size}) => (
-              <Image
-                source={require('../../assets/icons/home.png')}
-                style={{width: size, height: size, tintColor: color}}
-              />
+            <Icon name="home" type="material" color={color} size={35} />
           ), // Example: passing userId as a parameter
         }}
       />
       <Tab.Screen
-        name="About"
-        component={AboutScreen}
-        options={{
-          tabBarLabel: 'About',
-          initialParams: {userId: '123'},
-          headerShown: false,
-          tabBarIcon: ({color, size}) => (
-              <Image
-                source={require('../../assets/icons/book.png')}
-                style={{width: size, height: size, tintColor: color}}
-              />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Contact"
+        name="Profile"
         component={ContactScreen}
         options={{
-          tabBarLabel: 'Contact',
+          tabBarLabel: 'Profile',
           initialParams: {userId: '123'},
           headerShown: false,
           tabBarIcon: ({color, size}) => (
-              <Image
-                source={require('../../assets/icons/people.png')}
-                style={{width: size, height: size, tintColor: color}}
-              />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Camera"
-        component={CameraScreen}
-        options={{
-          tabBarLabel: 'Camera',
-          initialParams: {userId: '123'},
-          headerShown: false,
-          tabBarIcon: ({color, size}) => (
-              <Image
-                source={require('../../assets/icons/people.png')}
-                style={{width: size, height: size, tintColor: color}}
-              />
+            <Icon name="person" type="material" color={color} size={35} />
           ),
         }}
       />
